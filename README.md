@@ -1,4 +1,4 @@
-# nuxt-music-player
+# nuxt-music-player vue nuxt forting
 
 ## Build Setup
 
@@ -15,6 +15,11 @@ $ yarn start
 
 # generate static project
 $ yarn generate
+```
+## Backend Setup
+```js
+ yarn backend => PORT: localhost:4001
+ api => /musics
 ```
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
