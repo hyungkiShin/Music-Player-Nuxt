@@ -1,6 +1,6 @@
 <template>
-  <div class="intro" :style="onIntro()">
-    <img src="/assets/images/Logo.png" />
+  <div class="intro" :style="isIntro === false ? 'opacity: 0' : ''">
+    <img src="~/assets/images/Logo.png" />
   </div>
 </template>
 
@@ -11,11 +11,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  methods: {
-    onIntro (){
-      return this.isIntro === false ? 'opacity: 0' : ''
-    }
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div id="#app">
+  <div id="app">
     <intro :is-intro="isIntro" />
     <top-five />
     <tab />

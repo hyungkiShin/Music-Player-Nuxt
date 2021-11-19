@@ -5,7 +5,7 @@ export default {
   head: {
     title: "nuxt-music-player",
     htmlAttrs: {
-      lang: "en",
+      lang: "ko",
     },
     meta: [
       { charset: "utf-8" },
@@ -18,8 +18,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "@/assets/css/app.css",
-    "@/assets/css/reset.css"
+    "@/assets/css/reset.css",
+    "@/assets/css/app.css"
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
