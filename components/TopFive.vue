@@ -29,14 +29,6 @@
         </li>
       </ol>
     </article>
-    <ul class="app-controller">
-      <li v-for="tab in tabs" :key="tab.id">
-        <button class="button-app-controller">
-          <i :class="`tab-icon ${tab.iconName}`"></i>
-          {{ tab.title }}
-        </button>
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -45,11 +37,6 @@ export default {
   data() {
     return {
       items: [],
-      tabs: [
-        { title: "Top5", iconName: "icon-top5" },
-        { title: "PlayList", iconName: "icon-playlist" },
-        { title: "Search", iconName: "icon-search" },
-      ],
     };
   },
   created() {
