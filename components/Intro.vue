@@ -1,5 +1,5 @@
 <template>
-  <div class="intro" :style="isIntro === false ? 'opacity: 0' : ''">
+  <div class="intro" :class="isIntro === false ? 'fade' : ''">
     <img src="~/assets/images/Logo.png" />
   </div>
 </template>
@@ -11,6 +11,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  }
+  },
 };
 </script>
