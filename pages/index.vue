@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <intro :is-intro="isIntro" />
+    <intro v-if="delIntroDom" :is-intro="isIntro" />
     <top-five />
     <tab />
   </div>
@@ -16,9 +16,13 @@ export default Vue.extend({
   components: { TopFive, Tab, Intro },
   data() {
     return {
-      isIntro: true,
+      isIntro: true, // 인트로 Fade Out 활성화 변수
+      delIntroDom: true, // Intro Dom 삭제
       TIME: 750,
     };
+  },
+  watch: {
+
   },
   created() {
     this.onIntro();
@@ -28,6 +32,9 @@ export default Vue.extend({
       setTimeout(() => {
         this.isIntro = !this.isIntro;
       }, this.TIME);
+      setTimeout(() => {
+        this.delIntroDom = !this.delIntroDom
+      }, 2000);
     },
   },
 });

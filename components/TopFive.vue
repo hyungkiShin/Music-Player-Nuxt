@@ -17,11 +17,11 @@
             </div>
           </div>
           <div class="music-simple-controller" data-index="${index}">
-            <button class="icon icon-play">
+            <button class="icon icon-play" @click="handlerPlayMusic(item)">
               <span class="invisible-text">재생</span>
             </button>
             <button class="icon icon-plus">
-              <span class="invisible-text">추가</span>
+              <span class="invisible-text" @click="handlerAddMusic(item)">추가</span>
             </button>
           </div>
         </div>
@@ -41,6 +41,14 @@ export default {
     this.$axios.get("/musics").then((res) => {
       this.items = res.data;
     });
+  },
+  methods: {
+    handlerPlayMusic(item) {
+      console.log(item)
+    },
+    handlerAddMusic(item) {
+      console.log(item)
+    }
   },
 };
 </script>
