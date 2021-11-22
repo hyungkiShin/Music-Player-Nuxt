@@ -18,11 +18,18 @@ export default Vue.extend({
     return {
       isIntro: true, // 인트로 Fade Out 활성화 변수
       delIntroDom: true, // Intro Dom 삭제
-      TIME: 750,
+      INTRO_TIME: 750,
+      REMOVE_INTRO_DOM: 2000,
     };
   },
   watch: {
-
+    isIntro(val) {
+      if (!val) {
+        setTimeout(() => {
+          this.delIntroDom = !this.delIntroDom;
+        }, this.REMOVE_INTRO_DOM);
+      }
+    },
   },
   created() {
     this.onIntro();
@@ -31,10 +38,7 @@ export default Vue.extend({
     onIntro() {
       setTimeout(() => {
         this.isIntro = !this.isIntro;
-      }, this.TIME);
-      setTimeout(() => {
-        this.delIntroDom = !this.delIntroDom
-      }, 2000);
+      }, this.INTRO_TIME);
     },
   },
 });
