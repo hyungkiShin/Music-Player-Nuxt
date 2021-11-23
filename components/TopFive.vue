@@ -38,9 +38,12 @@ export default {
     return {
       items: [],
       audio: null,
-      musics: [],
+      musics: "",
       playPromise: null,
+      pauseMode: false,
     };
+  },
+  watch: {
   },
   created() {
     this.$axios.get("/musics").then((res) => {
@@ -49,22 +52,25 @@ export default {
   },
   methods: {
     handlerPlayMusic(payload) {
-      const { source } = payload;
-      if (this.musics.length <= 0) { // audio 재생이 처음일 경우
-        this.musics.push(payload);
+      const { source, title } = payload;
+      if (!this.audio) { // audio 재생이 처음일 경우
         this.audio = new Audio();
-        this.audio.src = this.audioSrcAdapter(source);
-        this.playPromise = this.audio.play();
-        this.audioPlay();
-        return;
       }
-      // [TODO] Refactoring
-      this.audio.src = this.audioSrcAdapter(source);
+      this.audio.src = require(`@/assets${source}`).default;
+      if (!this.playPromise) { // 최초 audio Promise 실행 여부
+        this.playPromise = this.audio.play();
+      }
+      this.audioDuplicate(title);
       this.audioPlay();
     },
-    audioSrcAdapter(source) {
-      // // default 를 붙여 src="[object:module]" 이슈 해결
-      return require(`@/assets${source}`).default;
+    audioDuplicate(title) {
+      if (!this.musics) {
+        this.musics = title;
+      } else if (this.musics === title) {
+        this.pauseMode = !this.pauseMode;
+      } else {
+        this.pauseMode = !this.pauseMode;
+      }
     },
     // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted 이슈
     audioPlay() {
@@ -72,8 +78,7 @@ export default {
       if (this.playPromise !== undefined) {
         this.playPromise
           .then((_) => {
-            this.pause();
-            this.play();
+            this.playControll();
           })
           .catch((_error) => {
             // Auto-play was prevented
@@ -81,10 +86,11 @@ export default {
           });
       }
     },
-    pause() {
+    playControll() {
       this.audio.pause();
-    },
-    play() {
+      if (this.pauseMode) {
+        return this.audio.pause();
+      }
       this.audio.play();
     },
     handlerAddMusic(item) {
