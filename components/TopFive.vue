@@ -50,32 +50,42 @@ export default {
   methods: {
     handlerPlayMusic(payload) {
       const { source } = payload;
-      if (!this.musics.length) {
+      if (this.musics.length <= 0) { // audio 재생이 처음일 경우
         this.musics.push(payload);
         this.audio = new Audio();
+        this.audio.src = this.audioSrcAdapter(source);
         this.playPromise = this.audio.play();
         this.audioPlay();
         return;
       }
-      this.audio.src = require(`@/assets${source}`).default;
+      // [TODO] Refactoring
+      this.audio.src = this.audioSrcAdapter(source);
       this.audioPlay();
     },
+    audioSrcAdapter(source) {
+      // // default 를 붙여 src="[object:module]" 이슈 해결
+      return require(`@/assets${source}`).default;
+    },
+    // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted 이슈
     audioPlay() {
+      // audio.play() => 비동기로 호출하기 떄문에 Promise 처리를 해줘야 함.
       if (this.playPromise !== undefined) {
         this.playPromise
           .then((_) => {
-            this.audio.pause();
-            this.audio.play();
+            this.pause();
+            this.play();
           })
           .catch((_error) => {
             // Auto-play was prevented
-            // Show paused UI.
             console.log(_error);
           });
       }
     },
     pause() {
       this.audio.pause();
+    },
+    play() {
+      this.audio.play();
     },
     handlerAddMusic(item) {
       console.log(item);
