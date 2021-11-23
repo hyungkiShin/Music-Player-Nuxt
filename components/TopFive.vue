@@ -38,6 +38,8 @@ export default {
     return {
       items: [],
       audio: null,
+      musics: [],
+      playPromise: null,
     };
   },
   created() {
@@ -48,12 +50,32 @@ export default {
   methods: {
     handlerPlayMusic(payload) {
       const { source } = payload;
-      this.audio = new Audio();
-      this.audio.pause();
-
+      if (!this.musics.length) {
+        this.musics.push(payload);
+        this.audio = new Audio();
+        this.playPromise = this.audio.play();
+        this.audioPlay();
+        return;
+      }
       this.audio.src = require(`@/assets${source}`).default;
-
-      this.audio.play();
+      this.audioPlay();
+    },
+    audioPlay() {
+      if (this.playPromise !== undefined) {
+        this.playPromise
+          .then((_) => {
+            this.audio.pause();
+            this.audio.play();
+          })
+          .catch((_error) => {
+            // Auto-play was prevented
+            // Show paused UI.
+            console.log(_error);
+          });
+      }
+    },
+    pause() {
+      this.audio.pause();
     },
     handlerAddMusic(item) {
       console.log(item);
