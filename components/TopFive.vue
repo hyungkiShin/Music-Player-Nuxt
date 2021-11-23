@@ -21,7 +21,9 @@
               <span class="invisible-text">재생</span>
             </button>
             <button class="icon icon-plus">
-              <span class="invisible-text" @click="handlerAddMusic(item)">추가</span>
+              <span class="invisible-text" @click="handlerAddMusic(item)"
+                >추가</span
+              >
             </button>
           </div>
         </div>
@@ -35,6 +37,7 @@ export default {
   data() {
     return {
       items: [],
+      audio: null,
     };
   },
   created() {
@@ -43,12 +46,18 @@ export default {
     });
   },
   methods: {
-    handlerPlayMusic(item) {
-      console.log(item)
+    handlerPlayMusic(payload) {
+      const { source } = payload;
+      this.audio = new Audio();
+      this.audio.pause();
+
+      this.audio.src = require(`@/assets${source}`).default;
+
+      this.audio.play();
     },
     handlerAddMusic(item) {
-      console.log(item)
-    }
+      console.log(item);
+    },
   },
 };
 </script>
