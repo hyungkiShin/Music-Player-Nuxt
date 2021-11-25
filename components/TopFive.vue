@@ -52,7 +52,7 @@ export default {
   created() {
     this.$axios.get("/musics").then((res) => {
       this.items = res.data;
-      this.musics2 = res.data
+      // this.musics2 = res.data
       res.data.forEach((v) => (v.isPause = false));
     });
   },
