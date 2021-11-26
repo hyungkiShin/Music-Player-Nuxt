@@ -46,6 +46,19 @@ export default {
       playListIndex: null, // Playlist index Controll
     }
   },
+  // async asyncData({ store }) {
+  //   console.log('gg')
+  //   await store.dispatch('fetchMusics')
+  // },
+  // async fetch({ store }) {
+  //   console.log('gg')
+  //   await store.dispatch('fetchMusics')
+  // },
+  computed: {
+    // items() {
+    //   return this.$store.state.musicItems
+    // },
+  },
   watch: {
     playListIndex(cur, before) {
       if (before !== null && cur !== before) {
@@ -59,8 +72,7 @@ export default {
   },
   async created() {
     let variable = null
-    await this.$axios.get('/musics')
-      .then((res) => {
+    await this.$axios.get('/musics').then((res) => {
         this.items = res.data
         this.items.forEach((v) => (v.isPause = false))
         this.musics = this.items.map((v) => {
@@ -78,11 +90,13 @@ export default {
     },
     handlerPlayMusic(payload, i) {
       const { source, isPause } = payload
-      if (!this.audio) { // audio 재생이 처음일 경우
+      if (!this.audio) {
+        // audio 재생이 처음일 경우
         this.audio = new Audio()
       }
       this.audio.src = require(`@/assets${source}`).default
-      if (!this.playPromise) { // 최초 audio Promise 실행 여부
+      if (!this.playPromise) {
+        // 최초 audio Promise 실행 여부
         this.playPromise = this.audio.play()
       }
       this.audioDuplicate(i, isPause)
