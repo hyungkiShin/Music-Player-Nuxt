@@ -34,8 +34,6 @@ export const actions = {
       variable = { isPause: (v.isPause = false) }
       return variable
     })
-    console.log('data', musicPlayIns)
-
     storeContext.commit('setMusics', items)
     storeContext.commit('musicPlayIns', musicPlayIns)
   },

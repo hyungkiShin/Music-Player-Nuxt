@@ -1,7 +1,7 @@
 <template>
   <ul class="app-controller">
     <li v-for="tab in tabs" :key="tab.id">
-      <button class="button-app-controller" @click="onTabClick(tab)">
+      <button class="button-app-controller" @click="$emit('onTabClick', tab.title)">
         <i :class="`tab-icon ${tab.iconName}`"></i>
         {{ tab.title }}
       </button>
@@ -21,20 +21,7 @@ export default {
     };
   },
   methods: {
-    onTabClick(tab) {
-      switch (tab.title) {
-        case tab.title === "Top5":
-          break;
-        case tab.title === "PlayList":
-          break;
-        case tab.title === "Search":
-          break;
 
-        default:
-          break;
-      }
-      console.log("하하하");
-    },
   },
 };
 </script>
