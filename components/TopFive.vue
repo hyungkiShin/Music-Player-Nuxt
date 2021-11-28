@@ -17,8 +17,6 @@
             </div>
           </div>
           <div class="music-simple-controller">
-            <!-- {{ musics }} -->
-              <!-- class="icon icon-play" -->
             <button
             :class="isClass(index)"
               @click="handlerPlayMusic(item, index)"
@@ -43,7 +41,7 @@ export default {
     return {
       audio: null, // audio 객체를 담기 위한 variable
       playPromise: null, // audio 객체 Promise Controll
-      playListIndex: null, // Playlist index Controll
+      playListIndex: null, // 현재 재생중인 Playlist 인덱스 Controll
     }
   },
   computed: {
@@ -70,13 +68,11 @@ export default {
     },
     handlerPlayMusic(payload, i) {
       const { source, isPause } = payload
-      if (!this.audio) {
-        // audio 재생이 처음일 경우
+      if (!this.audio) {  // audio 재생이 처음일 경우
         this.audio = new Audio()
       }
       this.audio.src = require(`@/assets${source}`).default
-      if (!this.playPromise) {
-        // 최초 audio Promise 실행 여부
+      if (!this.playPromise) { // 최초 audio Promise 실행 여부
         this.playPromise = this.audio.play()
       }
       this.audioDuplicate(i, isPause)
