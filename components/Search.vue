@@ -11,7 +11,7 @@
         <i class="icon-search-controller"></i>
       </button>
     </div>
-    <ul class="music-list">
+    <ul v-if="searchData.length" class="music-list">
       <li v-for="item in searchData" :key="item.id">
         <div class="music-content">
           <div class="music-data">
@@ -33,6 +33,9 @@
           </div>
         </div>
       </li>
+    </ul>
+    <ul v-else class="music-list empty-list">
+      No results were found for your search. please search again
     </ul>
   </article>
 </template>
@@ -76,4 +79,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.empty-list {
+  display: flex;
+  justify-content: center;
+  color: darkgray;
+  padding: 10%;
+}
+</style>
