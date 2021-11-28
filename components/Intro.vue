@@ -1,6 +1,6 @@
 <template>
   <div class="intro" :class="isIntro === false ? 'fade' : ''">
-    <img src="~/assets/images/Logo.png" />
+    <img src="/Logo.png" />
   </div>
 </template>
 
