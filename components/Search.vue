@@ -12,7 +12,7 @@
       </button>
     </div>
     <ul v-if="searchData.length" class="music-list">
-      <li v-for="item in searchData" :key="item.id">
+      <li v-for="(item, index) in searchData" :key="item.id">
         <div class="music-content">
           <div class="music-data">
             <div class="music-cover">
@@ -24,7 +24,10 @@
             </div>
           </div>
           <div class="music-simple-controller" data-index="0">
-            <button class="icon icon-play">
+            <button
+              :class="isClass(index)"
+              @click="handlerPlayMusic(item, index)"
+            >
               <span class="invisible-text">재생</span>
             </button>
             <button class="icon icon-plus">
@@ -41,7 +44,9 @@
 </template>
 
 <script>
+import playMusic from '~/mixins/playMusic'
 export default {
+  mixins: [playMusic],
   data() {
     return {
       searchInput: '',
@@ -75,7 +80,6 @@ export default {
       })
     },
   },
-  methods: {},
 }
 </script>
 

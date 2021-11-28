@@ -7,9 +7,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-  addMusicToPlayList(state, item) {
-    state.playList.push(item)
-  },
   setMusics(state, musicItems) {
     state.musicItems = musicItems
   },
@@ -20,6 +17,12 @@ export const mutations = {
     state.musicItems[isPauseIndex].isPause = !state.musicItems[isPauseIndex].isPause
     state.musicPlayIns[isPauseIndex].isPause = !state.musicPlayIns[isPauseIndex].isPause
   },
+  addMusicToPlayList(state, item) {
+    state.playList.push(item)
+  },
+  removeMusicToPlayList(state, index) {
+    state.playList.splice(index, 1)
+  }
 }
 
 export const actions = {
