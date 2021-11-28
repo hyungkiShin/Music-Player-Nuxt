@@ -2,7 +2,7 @@ import { fetchMusicItems } from '~/api'
 
 export const state = () => ({
   musicItems: [],
-  musicFlag: [],
+  musicPlayIns: [],
   playList: [],
 })
 
@@ -13,8 +13,12 @@ export const mutations = {
   setMusics(state, musicItems) {
     state.musicItems = musicItems
   },
-  setMusicFlag(state, musicFlag) {
-    state.musicFlag = musicFlag
+  musicPlayIns(state, musicPlayIns) {
+    state.musicPlayIns = musicPlayIns
+  },
+  mutMusicIsPause(state, isPauseIndex) {
+    state.musicItems[isPauseIndex].isPause = !state.musicItems[isPauseIndex].isPause
+    state.musicPlayIns[isPauseIndex].isPause = !state.musicPlayIns[isPauseIndex].isPause
   },
 }
 
@@ -26,13 +30,13 @@ export const actions = {
       isPause: false,
     }))
     let variable
-    const musicFlag = items.map((v) => {
+    const musicPlayIns = items.map((v) => {
       variable = { isPause: (v.isPause = false) }
       return variable
     })
-    console.log('data', musicFlag)
+    console.log('data', musicPlayIns)
 
     storeContext.commit('setMusics', items)
-    storeContext.commit('setMusicFlag', musicFlag)
+    storeContext.commit('musicPlayIns', musicPlayIns)
   },
 }

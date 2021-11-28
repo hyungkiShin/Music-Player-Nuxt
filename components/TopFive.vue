@@ -17,8 +17,10 @@
             </div>
           </div>
           <div class="music-simple-controller">
+            <!-- {{ musics }} -->
+              <!-- class="icon icon-play" -->
             <button
-              :class="isClass(index)"
+            :class="isClass(index)"
               @click="handlerPlayMusic(item, index)"
             >
               <span class="invisible-text">재생</span>
@@ -39,25 +41,18 @@
 export default {
   data() {
     return {
-      items: [],
-      musics: [], // mocking 할 Item 변수
       audio: null, // audio 객체를 담기 위한 variable
       playPromise: null, // audio 객체 Promise Controll
       playListIndex: null, // Playlist index Controll
     }
   },
-  // async asyncData({ store }) {
-  //   console.log('gg')
-  //   await store.dispatch('fetchMusics')
-  // },
-  // async fetch({ store }) {
-  //   console.log('gg')
-  //   await store.dispatch('fetchMusics')
-  // },
   computed: {
-    // items() {
-    //   return this.$store.state.musicItems
-    // },
+    items() {
+      return this.$store.state.musicItems
+    },
+    musics() {
+      return this.$store.state.musicPlayIns
+    },
   },
   watch: {
     playListIndex(cur, before) {
@@ -65,24 +60,9 @@ export default {
         if (!this.musics[before].isPause) {
           return
         }
-        this.items[before].isPause = !this.items[before].isPause
-        this.musics[before].isPause = !this.musics[before].isPause
+        this.$store.commit('mutMusicIsPause', before)
       }
     },
-  },
-  async created() {
-    let variable = null
-    await this.$axios.get('/musics').then((res) => {
-        this.items = res.data
-        this.items.forEach((v) => (v.isPause = false))
-        this.musics = this.items.map((v) => {
-          variable = { isPause: (v.isPause = false) }
-          return variable
-        })
-      })
-      .catch((e) => {
-        console.log(e)
-      })
   },
   methods: {
     isClass(index) {
@@ -102,20 +82,17 @@ export default {
       this.audioDuplicate(i, isPause)
       this.audioPlay()
     },
-    audioDuplicate(i, isPause) {
-      this.items[i].isPause = !isPause // item
-      this.musics[i].isPause = !isPause // musics
+    audioDuplicate(i) {
       this.playListIndex = i
+      this.$store.commit('mutMusicIsPause', i)
     },
-    audioPlay() {
-      // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted 이슈 대응
+    audioPlay() { // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted 이슈 대응
       if (this.playPromise !== undefined) {
         this.playPromise
           .then((_) => {
             this.playControll()
           })
-          .catch((_error) => {
-            // Auto-play was prevented
+          .catch((_error) => {  // Auto-play was prevented
             console.log(_error)
           })
       }
