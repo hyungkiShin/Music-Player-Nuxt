@@ -10,7 +10,7 @@
         <div class="music-content">
           <div class="music-data">
             <div class="music-cover">
-              <img :src="require(`${item.cover}`)" />
+              <img :src="`${item.cover}`" />
             </div>
             <div class="music-info">
               <strong class="music-title">{{ item.title }}</strong>
@@ -33,11 +33,7 @@ import playMusic from '~/mixins/playMusic'
 
 export default {
   mixins: [playMusic],
-  computed: {
-    playList() {
-      return this.$store.dispatch('loadStorage')
-    },
-  },
+  computed: {},
   methods: {
     removeMusic(index) {
       this.$store.commit('removeMusicToPlayList', index)

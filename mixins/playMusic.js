@@ -14,6 +14,10 @@ export default {
     musics() {
       return this.$store.state.musicPlayIns
     },
+    playList() {
+      const playList = JSON.parse(localStorage.getItem('playlist'))
+      return playList
+    },
   },
   watch: {
     playListIndex(cur, before) {
@@ -77,6 +81,5 @@ export default {
     handlerAddMusic(payload) {
       this.$store.commit('addMusicToLoadStorage', payload)
     },
-    loadStorage() {},
   },
 }
