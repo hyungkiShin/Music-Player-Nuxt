@@ -1,7 +1,7 @@
 <template>
   <article class="contents-top5">
     <div class="top5-roof">
-      <img src="/Logo.png" />
+      <img src="/Logo.svg" />
     </div>
     <ol class="top5-list">
       <li v-for="(item, index) in items" :key="item.id">
