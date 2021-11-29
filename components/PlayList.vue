@@ -2,11 +2,15 @@
   <article class="contents-playlist">
     <h2 class="playlist-title">MY PLAYLIST</h2>
     <ul class="music-list">
-      <li v-for="(item, index) in playList" :key="item.id">
+      <li
+        v-for="(item, index) in playList"
+        :key="item.id"
+        @click="onViewMusic(index)"
+      >
         <div class="music-content">
           <div class="music-data">
             <div class="music-cover">
-              <img :src="require(`~/assets${item.cover}`)" />
+              <img :src="require(`${item.cover}`)" />
             </div>
             <div class="music-info">
               <strong class="music-title">{{ item.title }}</strong>
@@ -31,14 +35,17 @@ export default {
   mixins: [playMusic],
   computed: {
     playList() {
-      return this.$store.state.playList
+      return this.$store.dispatch('loadStorage')
     },
   },
   methods: {
     removeMusic(index) {
       this.$store.commit('removeMusicToPlayList', index)
-    }
-  }
+    },
+    onViewMusic(index) {
+      this.$router.push({ name: 'PlayView', query: { index } })
+    },
+  },
 }
 </script>
 

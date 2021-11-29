@@ -4,6 +4,7 @@ export default {
       audio: null, // audio 객체를 담기 위한 variable
       playPromise: null, // audio 객체 Promise Controll
       playListIndex: null, // 현재 재생중인 Playlist 인덱스 Controll
+      mFlag: 'M' // 단일재생 (상세 화면) 인지 PlayList 인지 판별 Flag
     }
   },
   computed: {
@@ -28,8 +29,10 @@ export default {
     isClass(index) {
       return !this.musics[index].isPause ? 'icon icon-play' : 'icon icon-pause'
     },
-    handlerPlayMusic(payload, i) {
+    handlerPlayMusic(payload, i, mFlag) {
       const { source, isPause } = payload
+      this.mFlag = mFlag
+
       if (!this.audio) {  // audio 재생이 처음일 경우 Audio 객체 생성
         this.audio = new Audio()
       }
@@ -37,7 +40,9 @@ export default {
       if (!this.playPromise) { // 최초 audio Promise 실행 여부
         this.playPromise = this.audio.play()
       }
-      this.audioDuplicate(i, isPause) // 플레이 리스트 재생목록 버튼 UI 컨트롤 Function
+      if(mFlag === 'M') {
+        this.audioDuplicate(i, isPause) // 플레이 리스트 재생목록 버튼 UI 컨트롤 Function
+      }
       this.audioPlay() // 플레이 리스트 재생 Function
     },
     audioDuplicate(i) {
@@ -57,13 +62,17 @@ export default {
     },
     playControll() {
       this.audio.pause()
-      !this.items[this.playListIndex].isPause
-        ? this.audio.pause()
-        : this.audio.play()
+      if(this.mFlag === 'M') {
+        !this.items[this.playListIndex].isPause
+          ? this.audio.pause()
+          : this.audio.play()
+      }
+      this.audio.play()
     },
     handlerAddMusic(payload) {
-      this.$store.commit('addMusicToPlayList', payload)
-      alert('PlayList 에 추가 되었습니다.')
+      this.$store.commit('addMusicToLoadStorage', payload)
     },
+    loadStorage() {
+    }
   }
 };

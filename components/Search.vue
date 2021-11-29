@@ -16,7 +16,7 @@
         <div class="music-content">
           <div class="music-data">
             <div class="music-cover">
-              <img :src="require(`~/assets${item.cover}`)" />
+              <img :src="require(`${item.cover}`)" />
             </div>
             <div class="music-info">
               <strong class="music-title">{{ item.title }}</strong>
