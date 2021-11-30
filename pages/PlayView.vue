@@ -25,7 +25,7 @@
               class="control-button control-play"
               @click="handlerPlayMusic(playListItem, 'S')"
             >
-              <i class="icon-controller-play"></i>
+              <i :class="`${!playListItem.isPause ? 'icon-controller-play' : 'icon-controller-pause' }`"></i>
             </button>
             <button class="control-button control-pause hide">
               <i class="icon-controller-pause"></i>
@@ -54,9 +54,13 @@
 import playMusic from '~/mixins/playMusic'
 export default {
   mixins: [playMusic],
-  computed: {},
+  watch: {
+    'playListItem.isPause'(val) {
+      console.log(val)
+    },
+  },
   async created() {
-   if (process.client) {
+    if (process.client) {
       const localItem = await JSON.parse(localStorage.getItem('playlist'))
       const item = localItem[this.$route.query.index]
       return this.$store.dispatch('getPlayListItem', item)

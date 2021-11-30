@@ -1,15 +1,23 @@
 import { fetchMusicItems } from '~/api'
 
 export const state = () => ({
+  isIntro: true,
   musicItems: [],
   musicPlayIns: [],
   playListItems: [],
   playListItem: [],
+  tabType: 'Top5'
 })
 
 export const mutations = {
   setMusics(state, musicItems) {
     state.musicItems = musicItems
+  },
+  setIsIntro(state, isIntro) {
+    state.isIntro = isIntro
+  },
+  setTabType(state, payload) {
+    state.tabType =  payload
   },
   musicPlayIns(state, musicPlayIns) {
     state.musicPlayIns = musicPlayIns
@@ -26,7 +34,7 @@ export const mutations = {
   addMusicToLoadStorage(state, payload) {
     state.playListItems.push(payload)
     const musicList = state.playListItems.map(
-      ({ artists, artist, cover, source, title }) => ({ artists, artist, cover, source, title })
+      ({ artists, artist, cover, source, title, isPause }) => ({ artists, artist, cover, source, title, isPause })
     )
     try {
       // JSON.stringify 를 통해 문자열로 저장해줍니다.
@@ -64,6 +72,7 @@ export const actions = {
     storeContext.commit('setMusics', items)
     storeContext.commit('musicPlayIns', musicPlayIns)
   },
+
   // 저장소에서 임시저장한 음악 리스트 호출
   getPlayListItems(state) {
     // 플레이 리스트 키를 가지고 임시저장한 음악 리스트를 호출합니다.

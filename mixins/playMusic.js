@@ -18,7 +18,17 @@ export default {
       return this.$store.state.playListItems
     },
     playListItem() {
+      console.log(
+        'this.$store.state.playListItem',
+        this.$store.state.playListItem
+      )
       return this.$store.state.playListItem
+    },
+    tabType() {
+      return this.$store.state.tabType
+    },
+    isIntro() {
+      return this.$store.state.isIntro
     },
   },
   watch: {
@@ -76,12 +86,13 @@ export default {
     },
     playControll() {
       this.audio.pause()
-      if (this.mFlag === 'M') {
+      if (this.mFlag === 'M') { // Main PlayList
         return !this.items[this.playListIndex].isPause
           ? this.audio.pause()
           : this.audio.play()
+      } else { // Detail PlayView
+        !this.playListItem.isPause ? this.audio.pause() : this.audio.play()
       }
-      this.audio.play()
     },
     handlerAddMusic(payload) {
       this.$store.commit('addMusicToLoadStorage', payload)
