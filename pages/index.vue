@@ -42,7 +42,6 @@ export default Vue.extend({
     },
     onTabClick(title: string): void {
       this.tabType = title
-      console.log('하하하', title)
     },
   },
 })

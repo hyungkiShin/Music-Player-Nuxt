@@ -3,12 +3,11 @@
     <h2 class="playlist-title">MY PLAYLIST</h2>
     <ul class="music-list">
       <li
-        v-for="(item, index) in playList"
+        v-for="(item, index) in playListItems"
         :key="item.id"
-        @click="onViewMusic(index)"
       >
         <div class="music-content">
-          <div class="music-data">
+          <div class="music-data" @click="onViewMusic(index)">
             <div class="music-cover">
               <img :src="`${item.cover}`" />
             </div>
@@ -34,6 +33,9 @@ import playMusic from '~/mixins/playMusic'
 export default {
   mixins: [playMusic],
   computed: {},
+  created() {
+    return this.$store.dispatch('getPlayListItems')
+  },
   methods: {
     removeMusic(index) {
       this.$store.commit('removeMusicToPlayList', index)

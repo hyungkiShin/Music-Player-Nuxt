@@ -5,13 +5,13 @@
       <button class="back-button" @click="goHome">
         <i class="icon-controller-back"></i>
       </button>
-      <div v-if="item">
+      <div>
         <div class="cover-wrapper">
-          <img :src="(`${item.cover}`)" />
+          <img :src="`${playListItem.cover}`" />
         </div>
         <div class="music-information">
-          <h3 class="music-title">{{ item.title }}</h3>
-          <span class="music-artist-name">{{ item.artists[0] }}</span>
+          <h3 class="music-title">{{ playListItem.title }}</h3>
+          <span class="music-artist-name">{{ playListItem.artist }}</span>
         </div>
         <div class="play-view-controller">
           <div class="controller-container">
@@ -23,7 +23,7 @@
             </button>
             <button
               class="control-button control-play"
-              @click="handlerPlayMusic(item)"
+              @click="handlerPlayMusic(playListItem, 'S')"
             >
               <i class="icon-controller-play"></i>
             </button>
@@ -54,11 +54,12 @@
 import playMusic from '~/mixins/playMusic'
 export default {
   mixins: [playMusic],
-  asyncData({ store, query }) {
-    const { state } = store
-    if (query) {
-      const item = state.playList[query.index]
-      return { item }
+  computed: {},
+  async created() {
+   if (process.client) {
+      const localItem = await JSON.parse(localStorage.getItem('playlist'))
+      const item = localItem[this.$route.query.index]
+      return this.$store.dispatch('getPlayListItem', item)
     }
   },
   methods: {

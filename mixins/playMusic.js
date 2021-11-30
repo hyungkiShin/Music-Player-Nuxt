@@ -14,9 +14,11 @@ export default {
     musics() {
       return this.$store.state.musicPlayIns
     },
-    playList() {
-      const playList = JSON.parse(localStorage.getItem('playlist'))
-      return playList
+    playListItems() {
+      return this.$store.state.playListItems
+    },
+    playListItem() {
+      return this.$store.state.playListItem
     },
   },
   watch: {
@@ -47,14 +49,17 @@ export default {
         // 최초 audio Promise 실행 여부
         this.playPromise = this.audio.play()
       }
-      if (mFlag === 'M') {
-        this.audioDuplicate(i, isPause) // 플레이 리스트 재생목록 버튼 UI 컨트롤 Function
-      }
+      mFlag === 'M'
+        ? this.audioDuplicate(i, isPause) // 플레이 리스트 재생목록 버튼 UI 컨트롤 Function
+        : this.audioSingleDuplicate()
       this.audioPlay() // 플레이 리스트 재생 Function
     },
     audioDuplicate(i) {
       this.playListIndex = i
       this.$store.commit('mutMusicIsPause', i)
+    },
+    audioSingleDuplicate() {
+      this.$store.commit('mutSingleMusicIsPause')
     },
     audioPlay() {
       // https://developers.google.com/web/updates/2017/06/play-request-was-interrupted 이슈 대응
@@ -80,6 +85,14 @@ export default {
     },
     handlerAddMusic(payload) {
       this.$store.commit('addMusicToLoadStorage', payload)
+    },
+    getPlayListItem(i) {
+      if (process.client) {
+        const localItems = localStorage.getItem('playlist')
+        const parseItems = JSON.parse(localItems)
+        const item = parseItems.length ? parseItems[i] : []
+        this.$store.commit('setPlayListItem', item)
+      }
     },
   },
 }

@@ -39,7 +39,9 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/svg-sprite',
   ],
-
+  router: {
+    middleware: 'index',
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: isProduction || 'http://localhost:4001',
