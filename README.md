@@ -4,17 +4,17 @@
 
 ```bash
 # install dependencies
-$ yarn install
+$ npm install
 
 # serve with hot reload at localhost:4000
-$ yarn dev
+$ npm dev
 
 # build for production and launch server
-$ yarn build
-$ yarn start
+$ npm build
+$ npm start
 
 # generate static project
-$ yarn generate
+$ npm generate
 ```
 ## Backend Setup
 ```js
